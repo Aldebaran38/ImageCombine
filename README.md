@@ -32,20 +32,37 @@ The application is engineered with a **smart layout engine** that automatically 
 
 Ensure you have **Python 3.10+** installed on your system.
 
-1. Clone or navigate to the project directory:
+1. **Clone the repository** (or navigate to your project directory):
    ```bash
-   cd "c:\Projeler\ImageCombine"
+   git clone https://github.com/Aldebaran38/ImageCombine.git
+   cd ImageCombine
    ```
 
-2. Install dependencies:
+2. **Install dependencies** (optional if using the start scripts, as they will do this automatically):
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Launch the application:
-   ```bash
-   python main.py
-   ```
+### ⚡ Quick Start Scripts
+We provide convenient startup scripts that automatically verify your Python installation, check/install dependencies, and launch the application.
+
+* **Windows:**
+  Double-click `start.bat` or run:
+  ```cmd
+  start.bat
+  ```
+
+* **Linux / macOS:**
+  Make the script executable and run:
+  ```bash
+  chmod +x start.sh
+  ./start.sh
+  ```
+
+Alternatively, you can manually launch the application:
+```bash
+python main.py
+```
 
 ---
 
@@ -71,6 +88,8 @@ c:\Projeler\ImageCombine\
 ├── layout_engine.py     # Grid math & pixel-perfect coordinate distribution
 ├── combiner.py          # Image resizing, cropping, & PIL canvas compositing
 ├── requirements.txt     # Python package dependencies (Pillow)
+├── start.bat            # Windows startup script (auto-checks python & dependencies)
+├── start.sh             # Linux startup script (auto-checks python & dependencies)
 └── README.md            # You are here!
 ```
 
