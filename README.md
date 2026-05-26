@@ -79,6 +79,13 @@ python main.py
 
 ---
 
+## 🎨 Examples
+
+<img width="640" height="494" alt="Image Combiner UI" src="https://github.com/user-attachments/assets/1af0e9e3-6d72-429f-912c-59348e338318" />
+
+
+---
+
 ## 📂 Project Structure
 
 ```
