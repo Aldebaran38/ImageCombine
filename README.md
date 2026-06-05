@@ -1,108 +1,124 @@
-# 🖼️ Image Combiner
+# Image Combiner
 
-An elegant, lightweight Python GUI utility built with Tkinter and Pillow that allows you to easily combine multiple images into a single, perfectly proportioned, custom-resolution canvas. 
+A lightweight Python GUI tool built with Tkinter and Pillow for combining multiple images into a single, custom-resolution canvas.
 
-The application is engineered with a **smart layout engine** that automatically structures a grid based on your target aspect ratio and image count. It uses a **center-crop scale** to fit images cleanly without unsightly black bars or empty spaces.
-
----
-
-## ✨ Features
-
-* **📷 Multi-Format Image Support:** Upload standard formats including PNG, JPG, JPEG, BMP, WEBP, and TIFF.
-* **🔄 Easy Reordering:** Order is everything! Move images up and down with simple button controls to prioritize which image takes key positions.
-* **📐 Smart Grid Distribution:** 
-  * Automatically calculates the ideal rows and columns according to your target dimensions to ensure cell aspect ratios are as balanced (square-like) as possible.
-  * Dynamically handles **odd numbers of images** by making specific cells larger so there are no empty gaps.
-* **✂️ Intelligent Crop-to-Fit:** Center-crops all source images to perfectly fill their respective grid cells. No squishing, stretching, or letterboxing!
-* **🎛️ Dynamic Borders / Gaps:** 
-  * Adjust spacing between images (and the outer canvas borders) using an interactive slider (0 to 80 pixels).
-  * Customize the gap color instantly using a built-in visual color picker.
-* **⚡ Preconfigured Presets:** Use popular target size resolutions directly:
-  * `1024 × 1024` (Square)
-  * `1024 × 2048` (Portrait 1:2)
-  * `2048 × 1024` (Landscape 2:1)
-  * `1024 × 1536` (Portrait 2:3)
-  * `1536 × 1024` (Landscape 3:2)
-  * ...or define your own **Custom** dimensions!
-* **👁️ Interactive Preview:** Real-time generation of scaled previews in the application before saving.
+It uses a grid layout algorithm that automatically arranges images based on your target aspect ratio and image count, utilizing center-cropping to fit each image cleanly without distortion or empty gaps.
 
 ---
 
-## 🛠️ Installation & Setup
+## Features
 
-Ensure you have **Python 3.10+** installed on your system.
+* **Broad Format Support:** Works with PNG, JPG, JPEG, BMP, WEBP, and TIFF.
+* **Easy Reordering:** Arrange image order with Up and Down buttons to control where each image is placed in the grid.
+* **Smart Grid Distribution:**
+  * Calculates the optimal rows and columns based on target canvas dimensions to keep cell ratios balanced.
+  * Handles odd numbers of images cleanly by scaling specific cells to prevent empty gaps.
+* **Intelligent Center-Cropping:** Automatically center-crops images to fill their grid cell without stretching or distorting.
+* **Adjustable Borders & Gaps:**
+  * Add spacing between images (0 to 80px border/gap size) via a slider.
+  * Pick any background/gap color with a color picker.
+* **Canvas Presets & Custom Sizes:** Pre-configured sizes (Square, Portrait, Landscape) and full support for custom width/height inputs.
+* **Real-time Preview:** Generate and inspect a scaled layout preview before exporting.
 
-1. **Clone the repository** (or navigate to your project directory):
+---
+
+## Installation & Setup
+
+Requires **Python 3.10+**.
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/Aldebaran38/ImageCombine.git
    cd ImageCombine
    ```
 
-2. **Install dependencies** (optional if using the start scripts, as they will do this automatically):
+2. **Install dependencies:**
+   *(Optional if using the start scripts, which install dependencies automatically)*
    ```bash
    pip install -r requirements.txt
    ```
 
-### ⚡ Quick Start Scripts
-We provide convenient startup scripts that automatically verify your Python installation, check/install dependencies, and launch the application.
+### Quick Start Scripts
+The project includes startup scripts that verify Python, check/install dependencies, and start the app:
 
-* **Windows:**
-  Double-click `start.bat` or run:
+* **Windows:** Double-click `start.bat` or run:
   ```cmd
   start.bat
   ```
-
-* **Linux / macOS:**
-  Make the script executable and run:
+* **Linux / macOS:** Make `start.sh` executable and run it:
   ```bash
   chmod +x start.sh
   ./start.sh
   ```
 
-Alternatively, you can manually launch the application:
+You can also run the app manually:
 ```bash
 python main.py
 ```
 
 ---
 
-## 🚀 How to Use
+## How to Use
 
-1. **Add Images:** Click **Add Images** to load your photos. They will populate the list with indices.
-2. **Arrange the Order:** Select an item in the list and use the **▲ Up** and **▼ Down** buttons to organize them.
+1. **Add Images:** Click **Add Images** to load your files.
+2. **Arrange Order:** Select an image from the list and use the **▲ Up** and **▼ Down** buttons to position it.
 3. **Configure Canvas:**
-   * Select a resolution preset or set a custom width/height.
-   * Fine-tune the **Gap / Border** slider.
-   * Click the color swatch next to **Gap Colour** to choose a custom background border color.
-4. **Generate & Preview:** Click the **🔄 Preview** button to verify the layout distribution and cropping.
-5. **Save:** When satisfied, click **💾 Combine & Save** to export the result in your format of choice (PNG, JPEG, WEBP, BMP).
+   * Choose a resolution preset or enter custom dimensions.
+   * Adjust the spacing between images using the **Gap / Border** slider.
+   * Click the color box next to **Gap Colour** to change the background border color.
+4. **Preview:** Click **Preview** to generate a scaled layout preview.
+5. **Save:** Click **Combine & Save** to export the final image (supports PNG, JPEG, WEBP, and BMP).
 
----
 
-## 🎨 Examples
 
 <img width="640" height="494" alt="Image Combiner UI" src="https://github.com/user-attachments/assets/1af0e9e3-6d72-429f-912c-59348e338318" />
 
+---
+
+## Building Standalone Executables
+
+You can compile the application into a single portable executable that runs without a Python installation. 
+
+*Note: You must build on the target OS (e.g. build on Windows for `.exe`, Linux for the Linux binary).*
+
+* **Windows:** Run `build.bat` (or double-click it):
+  ```cmd
+  build.bat
+  ```
+  Output: `dist\ImageCombiner.exe`
+
+* **Linux:** Run `build.sh`:
+  ```bash
+  chmod +x build.sh
+  ./build.sh
+  ```
+  Output: `dist/ImageCombiner`
+
+The build scripts automatically check for and install `PyInstaller` and `Pillow` if needed.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-c:\Projeler\ImageCombine\
+ImageCombine/
 ├── main.py              # Main entry point for the application
 ├── gui.py               # Tkinter user interface & event handling
 ├── layout_engine.py     # Grid math & pixel-perfect coordinate distribution
 ├── combiner.py          # Image resizing, cropping, & PIL canvas compositing
+├── icon.png             # Application icon (embedded in the .exe)
 ├── requirements.txt     # Python package dependencies (Pillow)
-├── start.bat            # Windows startup script (auto-checks python & dependencies)
-├── start.sh             # Linux startup script (auto-checks python & dependencies)
+├── start.bat            # Windows dev startup script (with console for debugging)
+├── start.sh             # Linux dev startup script
+├── build.bat            # Windows build script → produces dist\ImageCombiner.exe
+├── build.sh             # Linux build script   → produces dist/ImageCombiner
+├── .gitignore           # Ignores build outputs, caches, etc.
 └── README.md            # You are here!
 ```
 
 ---
 
-## 🎨 Layout Distribution Logic
+## Layout Distribution Logic
 
 ```
 For Even Counts (e.g., 4 Images)         For Odd Counts (e.g., 3 Images)
@@ -116,4 +132,4 @@ For Even Counts (e.g., 4 Images)         For Odd Counts (e.g., 3 Images)
 │           │           │                │           │           │
 └───────────┴───────────┘                └───────────┴───────────┘
 ```
-The algorithm evaluates layout factorizations to minimize distortions while ensuring a solid edge-to-edge finish. The **first item** in the list gets prioritized with larger real estate during odd splits.
+The grid algorithm calculates factor combinations to minimize layout distortion. For odd counts, the first image is given a larger layout share to keep the layout complete and balanced.

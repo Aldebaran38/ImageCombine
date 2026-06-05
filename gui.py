@@ -4,12 +4,22 @@ Upload images, reorder them, configure output settings, and combine.
 """
 
 import os
+import sys
 import tkinter as tk
 from tkinter import ttk, filedialog, colorchooser, messagebox
 
 from PIL import Image, ImageTk
 
 from combiner import combine_images
+
+
+def _resource_path(relative_path: str) -> str:
+    """Get the absolute path to a resource, works for dev and PyInstaller."""
+    if getattr(sys, 'frozen', False):
+        base = sys._MEIPASS          # PyInstaller temp folder
+    else:
+        base = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base, relative_path)
 
 # ── Resolution presets ────────────────────────────────────────────────
 PRESETS = {
@@ -34,6 +44,14 @@ class ImageCombinerApp:
         self.root = root
         self.root.title("Image Combiner")
         self.root.geometry("920x760")
+
+        # Set window icon
+        try:
+            icon = Image.open(_resource_path("icon.png"))
+            self._icon_photo = ImageTk.PhotoImage(icon)
+            self.root.iconphoto(True, self._icon_photo)
+        except Exception:
+            pass  # graceful fallback if icon missing
         self.root.minsize(760, 620)
 
         # ── State ─────────────────────────────────────────────────────
