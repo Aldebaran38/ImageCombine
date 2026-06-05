@@ -4,6 +4,7 @@ Upload images, reorder them, configure output settings, and combine.
 """
 
 import os
+import subprocess
 import sys
 import tkinter as tk
 from tkinter import ttk, filedialog, colorchooser, messagebox
@@ -35,6 +36,87 @@ SUPPORTED_FORMATS = [
     ("Image files", "*.png *.jpg *.jpeg *.bmp *.webp *.tiff *.gif"),
     ("All files", "*.*"),
 ]
+
+
+class SaveSuccessDialog(tk.Toplevel):
+    """Custom dialog to show save success and offer opening in File Explorer."""
+
+    def __init__(self, parent, file_path):
+        super().__init__(parent)
+        self.title("Saved")
+        self.file_path = file_path
+        
+        # Make it transient and modal
+        self.transient(parent)
+        self.grab_set()
+        self.resizable(False, False)
+
+        # Standard layout padding
+        main_frame = ttk.Frame(self, padding=(20, 15))
+        main_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Message text
+        msg = f"Image successfully saved to:\n\n{file_path}"
+        lbl = ttk.Label(main_frame, text=msg, wraplength=400, justify=tk.LEFT)
+        lbl.pack(anchor=tk.W, pady=(0, 20))
+
+        # Button frame
+        btn_frame = ttk.Frame(main_frame)
+        btn_frame.pack(fill=tk.X)
+
+        # "Open in File Explorer" button (ttk)
+        self.btn_open = ttk.Button(
+            btn_frame, 
+            text="Open in File Explorer", 
+            command=self._open_and_close
+        )
+        self.btn_open.pack(side=tk.LEFT)
+
+        # "OK" button (ttk)
+        self.btn_ok = ttk.Button(
+            btn_frame, 
+            text="OK", 
+            command=self.destroy,
+            width=10
+        )
+        self.btn_ok.pack(side=tk.RIGHT)
+
+        # Set default focus to OK button
+        self.btn_ok.focus_set()
+
+        # Keyboard bindings: Enter closes, Escape closes
+        self.bind("<Return>", lambda e: self.destroy())
+        self.bind("<Escape>", lambda e: self.destroy())
+
+        # Center the dialog on the parent window
+        self.update_idletasks()
+        pw = parent.winfo_width()
+        ph = parent.winfo_height()
+        px = parent.winfo_x()
+        py = parent.winfo_y()
+        
+        w = self.winfo_width()
+        h = self.winfo_height()
+        
+        x = px + (pw - w) // 2
+        y = py + (ph - h) // 2
+        
+        # Clamp to screen size just in case parent is offscreen or geometry is weird
+        self.geometry(f"+{max(0, x)}+{max(0, y)}")
+
+    def _open_and_close(self):
+        norm_path = os.path.normpath(self.file_path)
+        if os.name == 'nt':
+            # Run explorer.exe and select the saved file
+            subprocess.Popen(['explorer', '/select,', norm_path])
+        else:
+            # Fallback for non-Windows platforms
+            parent_dir = os.path.dirname(norm_path)
+            if sys.platform == 'darwin':
+                subprocess.Popen(['open', parent_dir])
+            else:
+                subprocess.Popen(['xdg-open', parent_dir])
+        self.destroy()
 
 
 class ImageCombinerApp:
@@ -321,6 +403,6 @@ class ImageCombinerApp:
 
         try:
             combined.save(path)
-            messagebox.showinfo("Saved", f"Image saved to:\n{path}")
+            SaveSuccessDialog(self.root, path)
         except Exception as e:
             messagebox.showerror("Save Error", str(e))
